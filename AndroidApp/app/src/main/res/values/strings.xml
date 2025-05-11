@@ -3,5 +3,7 @@
 
     <string name="add_budget_title">Dodaj transakcję</string>
     <string name="add_budget_is_spending">Czy wydatek?</string>
+    <string name="add_budget_amount_label">Kwota</string>
+    <string name="add_budget_description_label">Opis</string>
     <string name="add_budget_confirm">Dodaj</string>
 </resources>

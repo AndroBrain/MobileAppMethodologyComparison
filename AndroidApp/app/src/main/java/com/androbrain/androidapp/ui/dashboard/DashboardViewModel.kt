@@ -20,7 +20,14 @@ class DashboardViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
+        observeBudgets()
         observeBalance()
+    }
+
+    private fun observeBudgets() {
+        budgetRepository.getAll().onEach { budgets ->
+            _state.update { state -> state.copy(budgets = budgets.reversed()) }
+        }.launchIn(viewModelScope)
     }
 
     private fun observeBalance() {

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.androbrain.androidapp.R
+import java.util.Locale
 
 @Composable
 fun AddBudgetDialog(
@@ -54,17 +55,20 @@ fun AddBudgetDialog(
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     value = String.format(
+                        Locale.getDefault(),
                         "%.2f",
                         state.amount.toDouble() / 100,
                     ),
                     onValueChange = { viewModel.changeAmount(it) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(stringResource(R.string.add_budget_amount_label)) }
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     value = state.description,
                     onValueChange = viewModel::changeDescription,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(stringResource(R.string.add_budget_description_label)) }
                 )
             }
         },
