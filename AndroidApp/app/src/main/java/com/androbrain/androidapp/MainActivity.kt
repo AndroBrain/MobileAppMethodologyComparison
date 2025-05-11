@@ -70,7 +70,11 @@ class MainActivity : ComponentActivity() {
                         contentPadding = innerPadding
                     ) {
                         items(state.budgets) { budget ->
-                            BudgetCard(budget = budget)
+                            BudgetCard(
+                                modifier = Modifier.animateItem(),
+                                budget = budget,
+                                onDeleteClick = { viewModel.deleteBudget(budget) },
+                            )
                             Spacer(Modifier.height(8.dp))
                         }
                     }

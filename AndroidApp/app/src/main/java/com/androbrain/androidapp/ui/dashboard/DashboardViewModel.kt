@@ -2,6 +2,7 @@ package com.androbrain.androidapp.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androbrain.androidapp.data.repository.BudgetModel
 import com.androbrain.androidapp.data.repository.BudgetRepository
 import com.androbrain.androidapp.ui.toAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -22,6 +24,10 @@ class DashboardViewModel @Inject constructor(
     init {
         observeBudgets()
         observeBalance()
+    }
+
+    fun deleteBudget(budget: BudgetModel) {
+        viewModelScope.launch { budgetRepository.delete(budget) }
     }
 
     private fun observeBudgets() {
