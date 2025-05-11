@@ -7,5 +7,4 @@ interface BudgetDataSource {
     suspend fun update(budget: BudgetEntity)
     suspend fun delete(budget: BudgetEntity)
     fun getAll(): Flow<List<BudgetEntity>>
-    fun getActualBudget(): Flow<Int>
 }
