@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class BudgetEntity(
     @PrimaryKey val id: Int,
-    val amount: Int,
+    val amount: Long,
     val description: String,
     val isSpending: Boolean,
 )
