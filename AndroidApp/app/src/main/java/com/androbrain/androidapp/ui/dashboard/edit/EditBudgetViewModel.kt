@@ -1,4 +1,4 @@
-package com.androbrain.androidapp.ui.dashboard.add
+package com.androbrain.androidapp.ui.dashboard.edit
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,42 +13,33 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AddBudgetViewModel @Inject constructor(
+class EditBudgetViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(AddBudgetState())
+    private val _state = MutableStateFlow(EditBudgetState())
     val state = _state.asStateFlow()
 
-    fun resetState() {
-        _state.update { AddBudgetState() }
+    fun resetState(budget: BudgetModel) {
+        _state.update { EditBudgetState(budget = budget) }
     }
 
     fun changeIsSpending(isSpending: Boolean) {
-        _state.update { state -> state.copy(isSpending = isSpending) }
+        _state.update { state -> state.copy(budget = state.budget.copy(isSpending = isSpending)) }
     }
 
     fun changeDescription(description: String) {
-        _state.update { state -> state.copy(description = description) }
+        _state.update { state -> state.copy(budget = state.budget.copy(description = description)) }
     }
 
     fun changeAmount(amount: String) {
         try {
-            _state.update { state -> state.copy(amount = (amount.toDouble() * 100).toLong()) }
+            _state.update { state -> state.copy(budget = state.budget.copy(amount = (amount.toDouble() * 100).toLong())) }
         } catch (e: NumberFormatException) {
             Log.e("Format", e.message.toString())
         }
     }
 
     fun addBudget() {
-        val currentState = state.value
-        viewModelScope.launch {
-            budgetRepository.insert(
-                BudgetModel(
-                    amount = currentState.amount,
-                    description = currentState.description,
-                    isSpending = currentState.isSpending,
-                )
-            )
-        }
+        viewModelScope.launch { budgetRepository.insert(state.value.budget) }
     }
 }

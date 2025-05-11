@@ -27,9 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.androbrain.androidapp.data.repository.BudgetModel
 import com.androbrain.androidapp.ui.dashboard.BudgetCard
 import com.androbrain.androidapp.ui.dashboard.DashboardViewModel
-import com.androbrain.androidapp.ui.dashboard.add.AddBudgetDialog
+import com.androbrain.androidapp.ui.dashboard.edit.EditBudgetDialog
 import com.androbrain.androidapp.ui.theme.AndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidAppTheme {
                 val state by viewModel.state.collectAsState()
-                var addBudgetDialogVisible by remember { mutableStateOf(false) }
+                var currentlyEditedBudget: BudgetModel? by remember { mutableStateOf(null) }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -53,15 +54,23 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = {
-                            addBudgetDialogVisible = !addBudgetDialogVisible
-                        }) {
+                        FloatingActionButton(
+                            onClick = {
+                                currentlyEditedBudget = BudgetModel(
+                                    amount = 0,
+                                    description = "",
+                                    isSpending = false
+                                )
+                            }
+                        ) {
                             Icon(Icons.Default.Add, contentDescription = null)
                         }
                     }
                 ) { innerPadding ->
-                    if (addBudgetDialogVisible) {
-                        AddBudgetDialog(onDismissRequest = { addBudgetDialogVisible = false })
+                    currentlyEditedBudget?.let { budget ->
+                        EditBudgetDialog(
+                            budget = budget,
+                            onDismissRequest = { currentlyEditedBudget = null })
                     }
                     LazyColumn(
                         modifier = Modifier
@@ -73,6 +82,7 @@ class MainActivity : ComponentActivity() {
                             BudgetCard(
                                 modifier = Modifier.animateItem(),
                                 budget = budget,
+                                onEditClick = { currentlyEditedBudget = budget },
                                 onDeleteClick = { viewModel.deleteBudget(budget) },
                             )
                             Spacer(Modifier.height(8.dp))

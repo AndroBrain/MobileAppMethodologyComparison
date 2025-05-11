@@ -1,4 +1,4 @@
-package com.androbrain.androidapp.ui.dashboard.add
+package com.androbrain.androidapp.ui.dashboard.edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,21 +22,31 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.androbrain.androidapp.R
+import com.androbrain.androidapp.data.repository.BudgetModel
 import java.util.Locale
 
 @Composable
-fun AddBudgetDialog(
+fun EditBudgetDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
+    budget: BudgetModel,
 ) {
-    val viewModel: AddBudgetViewModel = viewModel()
+    val viewModel: EditBudgetViewModel = viewModel()
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(Unit) { viewModel.resetState() }
+    LaunchedEffect(Unit) { viewModel.resetState(budget) }
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         title = {
-            Text(stringResource(R.string.add_budget_title))
+            Text(
+                stringResource(
+                    if (budget.id == 0) {
+                        R.string.add_budget_title
+                    } else {
+                        R.string.edit_budget_title
+                    }
+                )
+            )
         },
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -45,10 +55,10 @@ fun AddBudgetDialog(
                 ) {
                     Text(
                         modifier = Modifier.weight(1F),
-                        text = stringResource(R.string.add_budget_is_spending)
+                        text = stringResource(R.string.is_spending)
                     )
                     Switch(
-                        checked = state.isSpending,
+                        checked = state.budget.isSpending,
                         onCheckedChange = viewModel::changeIsSpending,
                     )
                 }
@@ -57,18 +67,18 @@ fun AddBudgetDialog(
                     value = String.format(
                         Locale.getDefault(),
                         "%.2f",
-                        state.amount.toDouble() / 100,
+                        state.budget.amount.toDouble() / 100,
                     ),
                     onValueChange = { viewModel.changeAmount(it) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    label = { Text(stringResource(R.string.add_budget_amount_label)) }
+                    label = { Text(stringResource(R.string.amount_label)) }
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
-                    value = state.description,
+                    value = state.budget.description,
                     onValueChange = viewModel::changeDescription,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    label = { Text(stringResource(R.string.add_budget_description_label)) }
+                    label = { Text(stringResource(R.string.description_label)) }
                 )
             }
         },
@@ -77,7 +87,15 @@ fun AddBudgetDialog(
                 viewModel.addBudget()
                 onDismissRequest()
             }) {
-                Text(stringResource(R.string.add_budget_confirm))
+                Text(
+                    stringResource(
+                        if (budget.id == 0) {
+                            R.string.add_confirm
+                        } else {
+                            R.string.edit_confirm
+                        }
+                    )
+                )
             }
         }
     )

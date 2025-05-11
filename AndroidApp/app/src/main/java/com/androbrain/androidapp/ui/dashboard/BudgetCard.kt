@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
@@ -22,6 +24,7 @@ import com.androbrain.androidapp.ui.toAmount
 fun BudgetCard(
     modifier: Modifier = Modifier,
     budget: BudgetModel,
+    onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
     OutlinedCard(
@@ -38,6 +41,10 @@ fun BudgetCard(
                     Text(text = budget.description)
                 }
             }
+            IconButton(onClick = onEditClick) {
+                Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+            }
+            Spacer(Modifier.width(8.dp))
             IconButton(onClick = onDeleteClick) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = null)
             }
