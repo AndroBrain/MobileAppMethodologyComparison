@@ -22,7 +22,10 @@ object AppModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context,
-    ): AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, "main_database").build()
+    ): AppDatabase = Room
+        .databaseBuilder(context, AppDatabase::class.java, "main_database")
+        .fallbackToDestructiveMigration(true)
+        .build()
 
     @Provides
     fun provideBudgetDao(database: AppDatabase) = database.budgetDao()

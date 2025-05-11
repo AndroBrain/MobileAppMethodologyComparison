@@ -6,14 +6,23 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.androbrain.androidapp.ui.dashboard.DashboardViewModel
+import com.androbrain.androidapp.ui.dashboard.add.AddBudgetDialog
 import com.androbrain.androidapp.ui.theme.AndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,15 +37,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidAppTheme {
                 val state by viewModel.state.collectAsState()
+                var addBudgetDialogVisible by remember { mutableStateOf(false) }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
                         CenterAlignedTopAppBar(
-                            title = { Text(text = state.balance.toString()) }
+                            title = { Text(text = state.balance) }
                         )
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = {
+                            addBudgetDialogVisible = !addBudgetDialogVisible
+                        }) {
+                            Icon(Icons.Default.Add, contentDescription = null)
+                        }
                     }
                 ) { innerPadding ->
+                    if (addBudgetDialogVisible) {
+                        AddBudgetDialog(onDismissRequest = { addBudgetDialogVisible = false })
+                    }
+                    LazyColumn(contentPadding = innerPadding) {
 
+                    }
                 }
             }
         }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidApp</string>
+
+    <string name="add_budget_title">Dodaj transakcję</string>
+    <string name="add_budget_is_spending">Czy wydatek?</string>
+    <string name="add_budget_confirm">Dodaj</string>
 </resources>
