@@ -1,0 +1,23 @@
+package com.androbrain.androidapp.data.datasource
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface BudgetDao {
+    @Insert
+    fun insert(budget: BudgetEntity)
+
+    @Delete
+    fun delete(budget: BudgetEntity)
+
+    @Update
+    fun update(budget: BudgetEntity)
+
+    @Query("SELECT * FROM BudgetEntity")
+    fun getAll(): Flow<List<BudgetEntity>>
+}
