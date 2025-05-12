@@ -1,10 +1,9 @@
 @file:OptIn(ExperimentalForeignApi::class)
 
-package com.androbrain.crosscompileapp.database
+package com.androbrain.crosscompileapp.data.database
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.androbrain.crosscompileapp.data.database.AppDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager

@@ -1,6 +1,6 @@
 package com.androbrain.crosscompileapp.di
 
-import com.androbrain.crosscompileapp.database.DatabaseFactory
+import com.androbrain.crosscompileapp.data.database.DatabaseFactory
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
