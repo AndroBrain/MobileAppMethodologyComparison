@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidApp</string>
+
+    <string name="add_budget_title">Dodaj transakcję</string>
+    <string name="edit_budget_title">Edytuj transakcję</string>
+    <string name="is_spending">Czy wydatek?</string>
+    <string name="amount_label">Kwota</string>
+    <string name="description_label">Opis</string>
+    <string name="add_confirm">Dodaj</string>
+    <string name="edit_confirm">Zmień</string>
+</resources>
