@@ -7,6 +7,10 @@ plugins {
 }
 
 android {
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
+
     namespace = "com.androbrain.androidapp"
     compileSdk = 35
 
@@ -22,11 +26,18 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
     compileOptions {
