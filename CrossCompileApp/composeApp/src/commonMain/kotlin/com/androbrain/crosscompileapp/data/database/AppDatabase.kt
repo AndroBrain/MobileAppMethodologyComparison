@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.androbrain.crosscompileapp.data.datasource.BudgetEntity
 
 @Database(entities = [BudgetEntity::class], version = 2)
-@ConstructedBy(BookDatabaseConstructor::class)
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun budgetDao(): BudgetDao
 
